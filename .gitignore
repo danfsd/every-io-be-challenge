@@ -1,3 +1,6 @@
 # Environment
 .editorconfig
 .env
+
+# NPM libraries
+node_modules
