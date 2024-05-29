@@ -16,3 +16,9 @@ This repository contains every's backend challenge for candidate Daniel Sampaio.
 - Prisma ORM
 - Apollo Server for GraphQL
 - Pino for logging
+
+### Setup
+
+#### Environment Variables
+
+Please create a new `.env` file using the contents of `.env.example`.
