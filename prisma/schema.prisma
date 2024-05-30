@@ -26,3 +26,16 @@ model Task {
   description String
   status      TaskStatus @default(TO_DO)
 }
+
+enum UserPermission {
+  NONE
+  READ
+  READ_WRITE
+}
+
+model User {
+  id         String         @id @default(uuid())
+  email      String         @unique
+  password   String
+  permission UserPermission @default(NONE)
+}

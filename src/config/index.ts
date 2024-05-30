@@ -6,6 +6,7 @@ export type NodeEnv = "development" | "production";
 export type Configuration = {
   applicationPort: number;
   databaseUrl?: string;
+  jwtSecret: string;
   logLevel: LogLevelEnum;
   nodeEnv: "development" | "production";
 };
@@ -31,6 +32,7 @@ const config: Configuration = {
     ? parseInt(process.env.BACKEND_PORT)
     : 3000,
   databaseUrl: process.env.DATABASE_URL,
+  jwtSecret: process.env.BACKEND_JWT_SECRET ?? "s3cr3t",
   logLevel: isValidLogLevel(process.env.BACKEND_LOG_LEVEL)
     ? process.env.BACKEND_LOG_LEVEL
     : LogLevelEnum.INFO,

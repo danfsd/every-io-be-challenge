@@ -20,6 +20,9 @@ import { HealthCheckService } from "../../api/application/healthcheck/HealthChec
 import { TaskService } from "../../api/application/task/TaskService";
 import { PrismaTaskRepository } from "../../api/infrastructure/prisma/PrismaTaskRepository";
 import apolloResolvers from "../../api/infrastructure/apollo/resolvers";
+import { UserService } from "../application/user/UserService";
+import { AuthService } from "../application/auth/AuthService";
+import { PrismaUserRepository } from "../../api/infrastructure/prisma/PrismaUserRepository";
 
 export class Container {
   private readonly container: AwilixContainer;
@@ -50,6 +53,11 @@ export class Container {
       .register({
         healthCheckController: asClass(HealthCheckController).singleton(),
         healthCheckService: asClass(HealthCheckService).singleton(),
+      })
+      .register({
+        userService: asClass(UserService).singleton(),
+        authService: asClass(AuthService).singleton(),
+        userRepository: asClass(PrismaUserRepository).singleton(),
       })
       .register({
         taskController: asClass(TaskController).singleton(),

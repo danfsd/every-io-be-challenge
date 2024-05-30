@@ -16,15 +16,33 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AuthenticateOutput = {
+  __typename?: 'AuthenticateOutput';
+  jwt: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  authenticateUser?: Maybe<AuthenticateOutput>;
   insertTask?: Maybe<Task>;
+  insertUser?: Maybe<User>;
   updateTaskStatus?: Maybe<Task>;
+};
+
+
+export type MutationAuthenticateUserArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 
 export type MutationInsertTaskArgs = {
   input: TaskInsertInput;
+};
+
+
+export type MutationInsertUserArgs = {
+  input: UserInsertInput;
 };
 
 
@@ -68,6 +86,25 @@ export enum TaskStatus {
   Done = 'DONE',
   InProgress = 'IN_PROGRESS',
   ToDo = 'TO_DO'
+}
+
+export type User = {
+  __typename?: 'User';
+  email: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  permission: UserPermission;
+};
+
+export type UserInsertInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  permission: UserPermission;
+};
+
+export enum UserPermission {
+  None = 'NONE',
+  Read = 'READ',
+  ReadWrite = 'READ_WRITE'
 }
 
 
@@ -141,6 +178,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  AuthenticateOutput: ResolverTypeWrapper<AuthenticateOutput>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
@@ -148,20 +186,33 @@ export type ResolversTypes = {
   Task: ResolverTypeWrapper<Task>;
   TaskInsertInput: TaskInsertInput;
   TaskStatus: TaskStatus;
+  User: ResolverTypeWrapper<User>;
+  UserInsertInput: UserInsertInput;
+  UserPermission: UserPermission;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  AuthenticateOutput: AuthenticateOutput;
   Boolean: Scalars['Boolean']['output'];
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
   Task: Task;
   TaskInsertInput: TaskInsertInput;
+  User: User;
+  UserInsertInput: UserInsertInput;
+};
+
+export type AuthenticateOutputResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthenticateOutput'] = ResolversParentTypes['AuthenticateOutput']> = {
+  jwt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  authenticateUser?: Resolver<Maybe<ResolversTypes['AuthenticateOutput']>, ParentType, ContextType, RequireFields<MutationAuthenticateUserArgs, 'email' | 'password'>>;
   insertTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationInsertTaskArgs, 'input'>>;
+  insertUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationInsertUserArgs, 'input'>>;
   updateTaskStatus?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationUpdateTaskStatusArgs, 'id' | 'newStatus'>>;
 };
 
@@ -178,9 +229,18 @@ export type TaskResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  permission?: Resolver<ResolversTypes['UserPermission'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
+  AuthenticateOutput?: AuthenticateOutputResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Task?: TaskResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
 };
 

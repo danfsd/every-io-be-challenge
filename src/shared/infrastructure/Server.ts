@@ -11,6 +11,7 @@ import { readFileSync } from "fs";
 import path from "path";
 import { Resolvers } from "./apollo/graphql-schema";
 import { IExpressContext } from "./apollo/IExpressContext";
+import { AuthService, VerifiedJwt } from "../application/auth/AuthService";
 
 export class ApplicationServer {
   private readonly express: express.Application;
@@ -19,6 +20,7 @@ export class ApplicationServer {
 
   constructor(
     private router: express.Router,
+    private authService: AuthService,
     private resolvers: Resolvers<IExpressContext>,
     private logger: ServerLogger,
     private config: Configuration
@@ -55,12 +57,23 @@ export class ApplicationServer {
         "/graphql",
         cors<cors.CorsRequest>(),
         express.json(),
-        // TODO: add authentication middleware
+
         expressMiddleware(apolloServer, {
-          context: async (context) => ({
-            request: context.req,
-            response: context.res,
-          }),
+          context: async (context) => {
+            let verifiedJwt: VerifiedJwt | null = null;
+
+            if (context.req.headers["authorization"]) {
+              verifiedJwt = this.authService.verifyJwt(
+                context.req.headers["authorization"]
+              );
+            }
+
+            return {
+              verifiedJwt: verifiedJwt,
+              request: context.req,
+              response: context.res,
+            };
+          },
         })
       );
 

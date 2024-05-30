@@ -12,6 +12,18 @@ type Task {
   status: TaskStatus!
 }
 
+enum UserPermission {
+  NONE
+  READ
+  READ_WRITE
+}
+
+type User {
+  id: String!
+  email: String!
+  permission: UserPermission!
+}
+
 type Query {
   tasks(status: TaskStatus): [Task!]!
   taskByPk(id: String!): Task
@@ -23,7 +35,19 @@ input TaskInsertInput {
   status: TaskStatus!
 }
 
+input UserInsertInput {
+  email: String!
+  password: String!
+  permission: UserPermission!
+}
+
+type AuthenticateOutput {
+  jwt: String!
+}
+
 type Mutation {
   insertTask(input: TaskInsertInput!): Task
   updateTaskStatus(id: String!, newStatus: TaskStatus!): Task
+  insertUser(input: UserInsertInput!): User
+  authenticateUser(email: String!, password: String!): AuthenticateOutput
 }

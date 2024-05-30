@@ -8,8 +8,8 @@ export class TaskService {
     return this.taskRepository.create(dto.title, dto.description, dto.status);
   }
 
-  public async findAll() {
-    return this.taskRepository.findAll();
+  public async findAll(status?: string) {
+    return this.taskRepository.findAll(status);
   }
 
   public async findOne(id: string) {

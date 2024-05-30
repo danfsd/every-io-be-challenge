@@ -13,12 +13,7 @@ services:
     volumes:
       - "./:/usr/src/app"
       - "/usr/src/app/node_modules"
-    command: >
-      sh -c "
-      npx prisma migrate deploy &&
-      npx prisma generate &&
-      npm run dev
-      "
+    command: ["npm", "run", "dev"]
     depends_on:
       - database
   database:
