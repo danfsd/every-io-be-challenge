@@ -22,7 +22,7 @@ import { PrismaTaskRepository } from "../../api/infrastructure/prisma/PrismaTask
 import apolloResolvers from "../../api/infrastructure/apollo/resolvers";
 import { UserService } from "../application/user/UserService";
 import { AuthService } from "../application/auth/AuthService";
-import { PrismaUserRepository } from "../../api/infrastructure/prisma/PrismaUserRepository";
+import { PrismaUserRepository } from "../../shared/infrastructure/prisma/PrismaUserRepository";
 
 export class Container {
   private readonly container: AwilixContainer;

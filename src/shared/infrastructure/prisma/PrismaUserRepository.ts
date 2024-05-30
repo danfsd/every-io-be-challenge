@@ -1,5 +1,5 @@
 import { $Enums, PrismaClient, User, UserPermission } from "@prisma/client";
-import { IUserRepository } from "../../domain/user/IUserRepository";
+import { IUserRepository } from "../../../api/domain/user/IUserRepository";
 import bcrypt from "bcrypt";
 
 export class PrismaUserRepository implements IUserRepository {
