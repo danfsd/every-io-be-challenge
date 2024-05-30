@@ -10,6 +10,7 @@ COPY . .
 FROM base as builder
 
 WORKDIR /usr/src/app
+# RUN npx prisma migrate deploy
 RUN npm run build
 
 # Production

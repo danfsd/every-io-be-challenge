@@ -5,17 +5,27 @@ services:
     build:
       context: .
       target: base
-    command: ["npm", "run", "dev"]
+    environment:
+      - POSTGRES_HOST=database
+      - POSTGRES_PORT=5432
     ports:
       - "${BACKEND_PORT}:3000"
     volumes:
       - "./:/usr/src/app"
       - "/usr/src/app/node_modules"
+    command: >
+      sh -c "
+      npx prisma migrate deploy &&
+      npx prisma generate &&
+      npm run dev
+      "
+    depends_on:
+      - database
   database:
     image: postgres:16.2
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_DB: postgres
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
