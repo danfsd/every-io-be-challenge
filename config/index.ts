@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { LogLevelEnum } from "../shared/domain/ILogger";
+import { LogLevelEnum } from "../src/shared/domain/ILogger";
 
 export type NodeEnv = "development" | "production";
 
