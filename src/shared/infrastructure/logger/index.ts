@@ -1,5 +1,5 @@
 import pino from "pino";
-import { Configuration } from "../../../config";
+import { Configuration } from "../../../../config";
 import ILogger from "../../domain/ILogger";
 
 export default class ServerLogger implements ILogger {

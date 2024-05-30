@@ -7,7 +7,7 @@ import {
   createContainer,
 } from "awilix";
 import { ApplicationServer } from "./Server";
-import config from "../../config";
+import config from "../../../config";
 import Router from "./Router";
 import ServerLogger from "./logger";
 import { createPrismaClient } from "./prisma";

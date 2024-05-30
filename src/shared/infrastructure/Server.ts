@@ -5,7 +5,7 @@ import cors from "cors";
 import express from "express";
 import * as http from "http";
 
-import { Configuration } from "../../config";
+import { Configuration } from "../../../config";
 import ServerLogger from "./logger";
 import { readFileSync } from "fs";
 import path from "path";

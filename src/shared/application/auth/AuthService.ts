@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { IUserRepository } from "../../../api/domain/user/IUserRepository";
 import ILogger from "../../domain/ILogger";
 import { User } from "@prisma/client";
-import { Configuration } from "../../../config";
+import { Configuration } from "../../../../config";
 
 export type VerifiedJwt = jwt.JwtPayload & { sub: string; permission: string };
 
