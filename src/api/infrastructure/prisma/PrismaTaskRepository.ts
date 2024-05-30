@@ -34,8 +34,16 @@ export class PrismaTaskRepository implements ITaskRepository {
   public async patchStatus(
     id: string,
     newStatus: $Enums.TaskStatus
-  ): Promise<void> {
-    await this.db.task.update({
+  ): Promise<Task | null> {
+    const lookup = await this.db.task.findUnique({
+      where: { id },
+    });
+
+    if (!lookup) return null;
+
+    if (lookup.status === newStatus) return lookup;
+
+    const result = await this.db.task.update({
       data: {
         status: newStatus,
       },
@@ -43,5 +51,7 @@ export class PrismaTaskRepository implements ITaskRepository {
         id,
       },
     });
+
+    return result;
   }
 }
