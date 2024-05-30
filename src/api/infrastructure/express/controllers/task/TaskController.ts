@@ -15,7 +15,7 @@ import { error } from "console";
 import ILogger from "../../../../../shared/domain/ILogger";
 
 export class TaskController {
-  constructor(private service: TaskService, private logger: ILogger) {}
+  constructor(private taskService: TaskService, private logger: ILogger) {}
 
   public async create(req: Request, res: Response) {
     const createTaskDto = new CreateTaskDto();
@@ -30,13 +30,13 @@ export class TaskController {
         .json({ success: false, error: (error as ValidationError).value });
     }
 
-    const taskId = await this.service.create(createTaskDto);
+    const taskId = await this.taskService.create(createTaskDto);
 
     res.status(201).json({ success: true, data: { id: taskId } });
   }
 
   public async findAll(_: Request, res: Response) {
-    const tasks = await this.service.findAll();
+    const tasks = await this.taskService.findAll();
 
     res.status(200).json({ success: true, data: tasks });
   }
@@ -54,7 +54,7 @@ export class TaskController {
 
     this.logger.info(`Finding task with ID ${taskId}`);
 
-    const task = await this.service.findOne(taskId);
+    const task = await this.taskService.findOne(taskId);
 
     if (!task)
       return res.status(404).json({
@@ -82,7 +82,7 @@ export class TaskController {
         .json({ success: false, error: error as ValidationError });
     }
 
-    await this.service.patchStatus(patchStatusDto);
+    await this.taskService.patchStatus(patchStatusDto);
 
     return res.status(200).json({ success: true });
   }

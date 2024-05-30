@@ -2,21 +2,21 @@ import { ITaskRepository } from "../../domain/task/ITaskRepository";
 import { CreateTaskDto, PatchTaskStatusDto } from "./TaskDto";
 
 export class TaskService {
-  constructor(private repository: ITaskRepository) {}
+  constructor(private taskRepository: ITaskRepository) {}
 
   public async create(dto: CreateTaskDto) {
-    return this.repository.create(dto.title, dto.description, dto.status);
+    return this.taskRepository.create(dto.title, dto.description, dto.status);
   }
 
   public async findAll() {
-    return this.repository.findAll();
+    return this.taskRepository.findAll();
   }
 
   public async findOne(id: string) {
-    return this.repository.findOne(id);
+    return this.taskRepository.findOne(id);
   }
 
   public async patchStatus(dto: PatchTaskStatusDto) {
-    return this.repository.patchStatus(dto.id, dto.status);
+    return this.taskRepository.patchStatus(dto.id, dto.status);
   }
 }

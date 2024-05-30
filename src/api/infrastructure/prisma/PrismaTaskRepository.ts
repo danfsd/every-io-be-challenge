@@ -19,8 +19,12 @@ export class PrismaTaskRepository implements ITaskRepository {
     return result.id;
   }
 
-  public async findAll() {
-    return this.db.task.findMany();
+  public async findAll(status?: TaskStatus) {
+    return this.db.task.findMany({
+      where: {
+        ...(status ? { status } : {}),
+      },
+    });
   }
 
   public async findOne(id: string) {

@@ -1,0 +1,6 @@
+schema: src/shared/infrastructure/apollo/schema.graphql
+generates:
+  ./src/shared/infrastructure/apollo/graphql-schema.ts:
+    plugins:
+      - typescript
+      - typescript-resolvers

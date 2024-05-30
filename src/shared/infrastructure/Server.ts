@@ -7,14 +7,19 @@ import * as http from "http";
 
 import { Configuration } from "../../config";
 import ServerLogger from "./logger";
+import { readFileSync } from "fs";
+import path from "path";
+import { Resolvers } from "./apollo/graphql-schema";
+import { IExpressContext } from "./apollo/IExpressContext";
 
-export default class ApplicationServer {
+export class ApplicationServer {
   private readonly express: express.Application;
-  private apolloServer?: ApolloServer;
+  private apolloServer?: ApolloServer<IExpressContext>;
   private http?: http.Server;
 
   constructor(
     private router: express.Router,
+    private resolvers: Resolvers<IExpressContext>,
     private logger: ServerLogger,
     private config: Configuration
   ) {
@@ -28,21 +33,14 @@ export default class ApplicationServer {
 
       this.logger.info("Creating Apollo Server instance...");
 
-      // TODO: improve typedef loading from separate file using graphql-tools
-
       const apolloServer = new ApolloServer({
-        typeDefs: `
-          type TasksQueryResult {
-            success: Boolean
+        typeDefs: readFileSync(
+          path.resolve(__dirname, "./apollo/schema.graphql"),
+          {
+            encoding: "utf-8",
           }
-
-          type Query {
-            tasks: TasksQueryResult
-          }
-        `,
-        resolvers: [
-          // TODO: Add resolvers
-        ],
+        ),
+        resolvers: this.resolvers,
         introspection: this.config.nodeEnv === "development",
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
       });
